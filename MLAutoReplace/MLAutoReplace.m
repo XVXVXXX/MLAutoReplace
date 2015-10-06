@@ -329,11 +329,12 @@ static MLAutoReplace *sharedPlugin;
     }else{
         NSString *replaceGetter = defaultReplaceGetterOfScalar;
         if ([type hasSuffix:@"*"]||[type isEqualToString:@"id"]) {
-            NSString * const defaultReplaceGetterOfPointer = @"{\n\tif (!_<name>) {%@\n\t\t<#custom#>\n\t}\n\treturn _<name>;\n}\n";
+            NSString * const defaultReplaceGetterOfPointer = @"{\n\tif (!_<name>) {%@\n\t}\n\treturn _<name>;\n}\n";
             NSString *otherContent = @"";
             if ([type hasSuffix:@"*"]) {
                 NSString *typeWithoutStar = [[type substringToIndex:type.length-1]stringByReplacingOccurrencesOfString:@" " withString:@""];
-                otherContent = [NSString stringWithFormat:@"\n\t\t_<name> = [%@ new];",typeWithoutStar];
+                
+                otherContent = [NSString stringWithFormat:@"\n\t_<name> = ({\n\t%@ *<name> = [[%@ alloc]init<#withxxx#>];\n<#custom#>\n<name>;\n\t});" ,typeWithoutStar ,typeWithoutStar];
                 
                 type = [[type substringToIndex:type.length-1] stringByAppendingString:@" *"];
             }
