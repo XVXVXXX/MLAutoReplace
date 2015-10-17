@@ -334,7 +334,7 @@ static MLAutoReplace *sharedPlugin;
             if ([type hasSuffix:@"*"]) {
                 NSString *typeWithoutStar = [[type substringToIndex:type.length-1]stringByReplacingOccurrencesOfString:@" " withString:@""];
                 //自己的修改
-                otherContent = [NSString stringWithFormat:@"\n\t_<name> = ({\n\t%@ *<name> = [[%@ alloc]init<#withxxx#>]];\n<#custom#>\n<name>;\n\t});" ,typeWithoutStar ,typeWithoutStar];
+                otherContent = [NSString stringWithFormat:@"\n\t_<name> = ({\n\t%@ *<name> = [[%@ alloc]init<#withxxx#>];\n<#custom#>\n<name>;\n\t});" ,typeWithoutStar ,typeWithoutStar];
                 
                 type = [[type substringToIndex:type.length-1] stringByAppendingString:@" *"];
             }
